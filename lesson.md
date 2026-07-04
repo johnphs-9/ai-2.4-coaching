@@ -17,6 +17,8 @@ By the end of this session, you will be able to:
 
 This coaching session gives you unstructured time to build a complete mini-app independently, using only the concepts from Lessons 2.1 to 2.3. There is no step-by-step walkthrough; the goal is to practice making your own design decisions: where to put state, how to split components, and how to wire them together. At the end, two learners will present their solutions before the instructor walks through a suggested approach.
 
+There is no single correct way to build this app. Many different component structures and state designs can satisfy the brief. The suggested structure later in this document is only one option; feel free to organise your components differently if another approach makes more sense to you. What matters most is practising the concepts from Lessons 2.1 to 2.3, not matching a specific solution.
+
 ---
 
 ## Part 1: Q&A (30 minutes)
@@ -129,57 +131,6 @@ After the presentations, the instructor will walk through a suggested solution c
 4. Computing the status message as derived state from the guesses list
 5. Rendering the `GuessList` with past guesses
 6. The reset handler and `Math.random()` for random secret numbers
-
----
-
-## Common Mistakes
-
-**Mutating state directly**
-
-```jsx
-// Wrong — does not trigger a re-render
-guesses.push(newGuess);
-
-// Correct — creates a new array
-setGuesses([...guesses, newGuess]);
-```
-
-**Storing derived values in `useState`**
-
-```jsx
-// Wrong — two sources of truth that can get out of sync
-const [statusMessage, setStatusMessage] = useState("");
-
-// Correct — compute it during render
-const statusMessage =
-  guesses.length === 0
-    ? "Make your first guess!"
-    : lastGuess > secretNumber
-    ? "Too high!"
-    : lastGuess < secretNumber
-    ? "Too low!"
-    : "Correct! You guessed it!";
-```
-
-**The `&&` gotcha with numbers**
-
-```jsx
-// Wrong — renders "0" as text when guesses.length is 0
-{guesses.length && <GuessList guesses={guesses} />}
-
-// Correct — explicit boolean check
-{guesses.length > 0 && <GuessList guesses={guesses} />}
-```
-
-**Forgetting `key` on list items**
-
-```jsx
-// Wrong
-{guesses.map((g) => <GuessItem guess={g} />)}
-
-// Correct — key must be stable and unique
-{guesses.map((g, index) => <GuessItem key={index} guess={g} />)}
-```
 
 ---
 
